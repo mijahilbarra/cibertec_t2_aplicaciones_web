@@ -15,4 +15,5 @@ public class Alumno {
     private String carrera;
     private Long codigoEstudiante;
     private double promedioNotas;
+    private boolean activo;
 }
