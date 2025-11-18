@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Página de prueba</title>
+</head>
+<body>
+<h1 th:text="${mensaje}">Mensaje por defecto</h1>
+
+<p>Esto es una vista cargada desde Spring Boot con Thymeleaf.</p>
+<ul>
+    <li th:each="alumno : ${alumnos}">
+        <span th:text="${alumno.nombre}"></span>
+        <span th:text="${alumno.apellido}"></span>
+        -
+        <span th:text="${alumno.carrera}"></span>
+    </li>
+</ul>
+
+</body>
+</html>
