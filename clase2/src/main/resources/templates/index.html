@@ -8,7 +8,16 @@
 <body>
 <h1>Thymeleaf</h1>
 <h2 th:text="${mensaje}"></h2>
+
 <p>Hola Mundo</p>
+
+<ul>
+    <!--         Alumno   :  List<Alumno>-->
+    <li th:each="variable : ${alumnos}">
+        <span th:text="${variable.getNombre()}"></span> |
+        <span th:text="${variable.getApellido()}"></span>
+    </li>
+</ul>
 
 <ul>
     <li>Item 1</li>
