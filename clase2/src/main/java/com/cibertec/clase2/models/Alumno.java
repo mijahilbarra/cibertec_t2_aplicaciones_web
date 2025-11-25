@@ -1,85 +1,77 @@
 package com.cibertec.clase2.models;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
-@Entity(name = "AlumnosTabla")
-@Table(name = "Alumnos")
+@Entity
+@Table(name = "alumno")
 public class Alumno {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "name")
+    private Integer id;
+    
+    @Column(nullable = false, length = 50)
     private String nombre;
-    @Column(name = "lastName")
+    
+    @Column(nullable = false, length = 50)
     private String apellido;
+    
+    @Column(name = "fecha_nacimiento", nullable = false)
+    private LocalDate fechaNacimiento;
+    
     @ManyToOne
     @JoinColumn(name = "carrera_id")
     private Carrera carrera;
-    private Long codigoEstudiante;
-    private double promedioNotas;
-    private boolean activo;
-
+    
     public Alumno() {
     }
-
-    public Alumno(String nombre, String apellido) {
+    
+    public Alumno(String nombre, String apellido, LocalDate fechaNacimiento, Carrera carrera) {
         this.nombre = nombre;
         this.apellido = apellido;
-    }
-
-    public Carrera getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(Carrera carrera) {
+        this.fechaNacimiento = fechaNacimiento;
         this.carrera = carrera;
     }
-
-    public Long getId() {
+    
+    // Getters y Setters
+    public Integer getId() {
         return id;
     }
-
-    public void setId(Long id) {
+    
+    public void setId(Integer id) {
         this.id = id;
     }
-
+    
     public String getNombre() {
         return nombre;
     }
-
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+    
     public String getApellido() {
         return apellido;
     }
-
+    
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-
-    public Long getCodigoEstudiante() {
-        return codigoEstudiante;
+    
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
     }
-
-    public void setCodigoEstudiante(Long codigoEstudiante) {
-        this.codigoEstudiante = codigoEstudiante;
+    
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
-
-    public double getPromedioNotas() {
-        return promedioNotas;
+    
+    public Carrera getCarrera() {
+        return carrera;
     }
-
-    public void setPromedioNotas(double promedioNotas) {
-        this.promedioNotas = promedioNotas;
-    }
-
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
     }
 }

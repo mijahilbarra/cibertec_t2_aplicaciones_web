@@ -6,17 +6,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CarreraService {
-    private CarreraRepository carreraRepository;
-
+    
+    private final CarreraRepository carreraRepository;
+    
     public CarreraService(CarreraRepository carreraRepository) {
         this.carreraRepository = carreraRepository;
     }
-
+    
     public Iterable<Carrera> findAll() {
         return carreraRepository.findAll();
     }
-
-    public Iterable<Carrera> findByCarrera(String carrera) {
-        return carreraRepository.findByNombreCarreraContainingIgnoreCase(carrera);
+    
+    public Iterable<Carrera> findByNombreCarrera(String nombreCarrera) {
+        return carreraRepository.findByNombreCarreraContainingIgnoreCase(nombreCarrera);
     }
 }

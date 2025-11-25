@@ -1,60 +1,74 @@
 package com.cibertec.clase2.models;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
-@Table(name = "Carreras")
+@Table(name = "carrera")
 public class Carrera {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+    
+    @Column(name = "nombre_carrera", nullable = false, length = 100)
     private String nombreCarrera;
-    private String jefeCarrera;
-    private Integer cantidadCiclos;
+    
+    @Column(nullable = false, length = 100)
+    private String facultad;
+    
     @OneToMany(mappedBy = "carrera")
-    private List<Alumno> alumno;
-
+    private List<Alumno> alumnos;
+    
+    @OneToMany(mappedBy = "carrera")
+    private List<Curso> cursos;
+    
     public Carrera() {
     }
-
-    public Carrera(Long id, String nombreCarrera, String jefeCarrera, Integer cantidadCiclos) {
-        this.id = id;
+    
+    public Carrera(String nombreCarrera, String facultad) {
         this.nombreCarrera = nombreCarrera;
-        this.jefeCarrera = jefeCarrera;
-        this.cantidadCiclos = cantidadCiclos;
+        this.facultad = facultad;
     }
-
-    public Long getId() {
+    
+    // Getters y Setters
+    public Integer getId() {
         return id;
     }
-
-    public void setId(Long id) {
+    
+    public void setId(Integer id) {
         this.id = id;
     }
-
+    
     public String getNombreCarrera() {
         return nombreCarrera;
     }
-
+    
     public void setNombreCarrera(String nombreCarrera) {
         this.nombreCarrera = nombreCarrera;
     }
-
-    public String getJefeCarrera() {
-        return jefeCarrera;
+    
+    public String getFacultad() {
+        return facultad;
     }
-
-    public void setJefeCarrera(String jefeCarrera) {
-        this.jefeCarrera = jefeCarrera;
+    
+    public void setFacultad(String facultad) {
+        this.facultad = facultad;
     }
-
-    public Integer getCantidadCiclos() {
-        return cantidadCiclos;
+    
+    public List<Alumno> getAlumnos() {
+        return alumnos;
     }
-
-    public void setCantidadCiclos(Integer cantidadCiclos) {
-        this.cantidadCiclos = cantidadCiclos;
+    
+    public void setAlumnos(List<Alumno> alumnos) {
+        this.alumnos = alumnos;
+    }
+    
+    public List<Curso> getCursos() {
+        return cursos;
+    }
+    
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
     }
 }

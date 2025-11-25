@@ -1,0 +1,243 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listado de Cursos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-clear {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-clear:hover {
+            background: #d0d0d0;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        thead th {
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        thead th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        thead th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+        }
+
+        tbody td {
+            padding: 15px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .current-filter {
+            background: #e8eaf6;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            color: #5e35b1;
+            font-size: 14px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📖 Listado de Cursos</h1>
+            <p class="subtitle">Busque cursos por nombre de carrera</p>
+
+            <form class="search-form" th:action="@{/curso/listar}" method="get">
+                <input type="text" name="carrera" th:value="${carrera}"
+                    placeholder="Ingrese el nombre de la carrera...">
+                <button type="submit" class="btn-search">🔍 Buscar</button>
+                <a th:href="@{/curso/listar}">
+                    <button type="button" class="btn-clear">✖ Limpiar</button>
+                </a>
+            </form>
+
+            <div th:if="${carrera != null and !carrera.isEmpty()}">
+                <span class="current-filter">
+                    Filtrando por: <strong th:text="${carrera}"></strong>
+                </span>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table th:if="${cursos != null and !#lists.isEmpty(cursos)}">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre del Curso</th>
+                        <th>Ciclo</th>
+                        <th>Docente</th>
+                        <th>Carrera</th>
+                        <th>Facultad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="curso : ${cursos}">
+                        <td th:text="${curso.id}"></td>
+                        <td>
+                            <strong th:text="${curso.nombreCurso}"></strong>
+                        </td>
+                        <td>
+                            <span class="badge" th:text="'Ciclo ' + ${curso.ciclo}"></span>
+                        </td>
+                        <td th:text="${curso.docente}"></td>
+                        <td th:text="${curso.carrera.nombreCarrera}"></td>
+                        <td th:text="${curso.carrera.facultad}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="no-results" th:if="${cursos == null or #lists.isEmpty(cursos)}">
+                <div class="no-results-icon">📚</div>
+                <p>No se encontraron cursos</p>
+                <p th:if="${carrera != null and !carrera.isEmpty()}" style="font-size: 14px; margin-top: 10px;">
+                    Intente con otro nombre de carrera
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
